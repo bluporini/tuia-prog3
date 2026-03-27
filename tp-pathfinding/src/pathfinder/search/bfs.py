@@ -17,13 +17,41 @@ class BreadthFirstSearch:
         """
         # Initialize root node
         root = Node("", state=grid.initial, cost=0, parent=None, action=None)
+        
+        # 
+        front = QueueFrontier()
+        front.add(root)
 
         # Initialize reached with the initial state
         reached = {}
         reached[root.state] = True
 
+        # 
+        if grid.objective_test(root.state):
+            return Solution(root, reached)
+
+
         # Initialize frontier with the root node
-        # TODO Complete the rest!!
-        # ...
+        while True:
+            
+            if front.is_empty(): 
+                return NoSolution(reached)
+
+            node = front.remove()
+
+            for action in grid.actions(node.state):
+                result = grid.result(node.state, action)
+
+                if result not in reached:
+                    node_2 = Node(result, node, action, 
+                                    node.cost + grid.individual_cost(node.state, action))
+                    if grid.objective_test(result):
+                        return Solution(node_2, reached)
+                    
+                    reached[result] = True
+                    front.add(node_2)
+                    
+
 
         return NoSolution(reached)
+
