@@ -15,10 +15,11 @@ class BreadthFirstSearch:
         Returns:
             Solution: Solution found
         """
+
         # Initialize root node
         root = Node("", state=grid.initial, cost=0, parent=None, action=None)
         
-        # 
+        # Add the root to the front
         front = QueueFrontier()
         front.add(root)
 
@@ -26,14 +27,12 @@ class BreadthFirstSearch:
         reached = {}
         reached[root.state] = True
 
-        # 
+        # Check if root is already a solution
         if grid.objective_test(root.state):
             return Solution(root, reached)
 
-
-        # Initialize frontier with the root node
         while True:
-            
+            # stop if frontier is empty
             if front.is_empty(): 
                 return NoSolution(reached)
 
@@ -42,16 +41,14 @@ class BreadthFirstSearch:
             for action in grid.actions(node.state):
                 result = grid.result(node.state, action)
 
+                # Add a child
                 if result not in reached:
-                    node_2 = Node(result, node, action, 
-                                    node.cost + grid.individual_cost(node.state, action))
+                    node_2 = Node("", result, node.cost + grid.individual_cost(node.state, action), node, action)
+                    
+                    # Check if the child is a solution
                     if grid.objective_test(result):
                         return Solution(node_2, reached)
                     
+                    # Add child to front
                     reached[result] = True
                     front.add(node_2)
-                    
-
-
-        return NoSolution(reached)
-
