@@ -111,3 +111,11 @@ class Grid:
 
     def __repr__(self) -> str:
         return f"Grid([[...], ...], {self.initial}, {self.end})"
+    
+    def h(self, node_act) -> int:
+        '''
+        Implementación de idea de Tito sobre la heurística Manhattan.
+
+        '''
+
+        return abs(self.end[0] - node_act[0]) + abs(self.end[1] - node_act[1])

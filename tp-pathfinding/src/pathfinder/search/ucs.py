@@ -24,7 +24,7 @@ class UniformCostSearch:
 
         # Initialize frontier with the root node
         front = PriorityQueueFrontier()
-        front.add(root)
+        front.add(root, root.cost)
 
         while True:
             # stop if frontier is empty
@@ -46,4 +46,4 @@ class UniformCostSearch:
                 if (result not in reached) or (cost < reached[result]):
                     node_2 = Node("", result, cost, node, action)
                     reached[result] = cost
-                    front.add(node_2)
+                    front.add(node_2, node_2.cost)
